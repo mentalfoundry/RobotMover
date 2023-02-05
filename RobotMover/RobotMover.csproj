@@ -43,7 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Robot.cs" />
+    <Compile Include="Implementation\RobotPlacement.cs" />
+    <Compile Include="Implementation\TableTop.cs" />
     <Compile Include="Interfaces\IRobot.cs" />
+    <Compile Include="Interfaces\IRobotPlacement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

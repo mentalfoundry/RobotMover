@@ -7,12 +7,14 @@ using static RobotMover.Program;
 
 namespace RobotMover.Interfaces
 {
+    public enum CommandResult
+    {
+        Success,
+        Failed
+    }
+
     public interface IRobot
     {
-        CommandResult ActionPlace(RobotPlacement newplacement);
-        CommandResult ActionLeft(Direction currentDirection);
-        CommandResult ActionRight(Direction currentDirection);
-        CommandResult ActionMove(RobotPlacement currentPlacement);
         CommandResult ExecuteCommand(string command);
     }
 }
