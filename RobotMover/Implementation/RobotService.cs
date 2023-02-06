@@ -1,42 +1,43 @@
 ﻿using RobotMover.Interfaces;
 using System;
+using static RobotMover.Implementation.Constants;
 
 namespace RobotMover.Implementation
 {
-    public class RobotConsole : IRobotConsole
+    public class RobotService : IRobotService
     {
         IRobot _robot;
 
-        public RobotConsole(TableTop tableTop)
+        public RobotService(IRobot robot)
         {
-            _robot = new Basic2DGridRobot(tableTop);
+            _robot = robot;
         }
 
-        private bool TryPlaceRobot(string placementParameters)
+        private RobotResponse TryPlaceRobot(string placementParameters)
         {
             // Split parameters out of string
             var parameters = placementParameters.Split(',');
             
             if(!Int32.TryParse(parameters[0], out int x))
             {
-                return false;
+                return new RobotResponse(CommandResult.Failed);
             }
 
             if(!Int32.TryParse(parameters[1], out int y))
             {
-                return false;
+                return new RobotResponse(CommandResult.Failed);
             }
 
             if (!Enum.TryParse<Direction>(parameters[2], true, out Direction direction)) 
             {
-                return false;
+                return new RobotResponse(CommandResult.Failed);
             }
 
             // Set placement
             return _robot.SetPlacement(x, y, direction);
         }
 
-        public CommandResult ExecuteCommand(string command)
+        public RobotResponse ExecuteCommand(string command)
         {
             // Get action from command
             var action = "";
@@ -50,20 +51,11 @@ namespace RobotMover.Implementation
                 action = command.ToLower();
             }
 
-            // Always try place the robot...
+            // Always try to place the robot
             if (action == "place" && index != -1)
             {
                 var placementParameters = command.Substring(index);
-                var placedRobotSuccessfully = TryPlaceRobot(placementParameters);
-                
-                if(placedRobotSuccessfully)
-                { 
-                    return CommandResult.Success; 
-                }
-                else
-                {
-                    return CommandResult.Failed;
-                }
+                return TryPlaceRobot(placementParameters);                
             }
 
             // Otherwise check if robot is placed properly before trying anything else.
@@ -72,28 +64,20 @@ namespace RobotMover.Implementation
                 switch (action)
                 {
                     case "move":
-                        _robot.MovePlacementForward();                        
-                        break;
+                        return _robot.MovePlacementForward();                                                
 
                     case "left":
-                        _robot.RotateDirectionLeft();
-                        break;
+                        return _robot.RotateDirectionLeft();
 
                     case "right":
-                        _robot.RotateDirectionRight();                        
-                        break;
+                        return _robot.RotateDirectionRight();
 
                     case "report":
-                        _robot.Report();                        
-                        break;
-                    default: 
-                        return CommandResult.Failed;
+                        return _robot.Report();
                 }
-
-                return CommandResult.Success;
             }
 
-            return CommandResult.Failed;
+            return new RobotResponse(CommandResult.Failed);
         }
     }
 

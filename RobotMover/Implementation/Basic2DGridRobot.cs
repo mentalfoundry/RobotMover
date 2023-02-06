@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RobotMover.Implementation.Constants;
 
 namespace RobotMover.Implementation
 {
     public class Basic2DGridRobot : IRobot
     {
-        // Current Placement is dependent on a Grid
+        // Grid for bounds reference.
         TableTop _tabletop;
 
         // Current Robot Placement Values
@@ -25,7 +26,7 @@ namespace RobotMover.Implementation
             direction = Direction.Undefined;
         }
 
-        public bool SetPlacement(int x, int y, Direction dir)
+        public RobotResponse SetPlacement(int x, int y, Direction dir)
         {
             // Check if placement value is valid;            
             if (x >= 0 && x < _tabletop.array2D.GetLength(0) &&
@@ -36,50 +37,55 @@ namespace RobotMover.Implementation
                 xcoordinate = x;
                 ycoordinate = y;
                 direction = dir;
-                return true;
+                return new RobotResponse(CommandResult.Success);
             }
-            else return false;
+            
+            return new RobotResponse(CommandResult.Failed);
         }
 
-        public void RotateDirectionLeft()
+        public RobotResponse RotateDirectionLeft()
         {
             switch (direction)
             {
                 case Direction.North:
                     direction = Direction.West;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.West:
                     direction = Direction.South;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.South:
                     direction = Direction.East;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.East:
                     direction = Direction.North;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
             }
+
+            return new RobotResponse(CommandResult.Failed);
         }
 
-        public void RotateDirectionRight() 
+        public RobotResponse RotateDirectionRight() 
         {
             switch (direction)
             {
                 case Direction.North:
                     direction = Direction.East;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.West:
                     direction = Direction.North;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.South:
                     direction = Direction.West;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.East:
                     direction = Direction.South;
-                    break;
+                    return new RobotResponse(CommandResult.Success);
             }
+
+            return new RobotResponse(CommandResult.Failed);
         }
 
-        public void MovePlacementForward()
+        public RobotResponse MovePlacementForward()
         {
             switch (direction)
             {
@@ -88,40 +94,51 @@ namespace RobotMover.Implementation
                     {
                         ycoordinate++;
                     }
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.West:
                     if (xcoordinate > 0)
                     {
                         xcoordinate--;
                     }
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.South:
                     if (ycoordinate > 0)
                     {
                         ycoordinate--;
                     }
-                    break;
+                    return new RobotResponse(CommandResult.Success);
                 case Direction.East:
                     if (xcoordinate < _tabletop.array2D.GetLength(0) - 1)
                     {
                         xcoordinate++;
                     }
-                    break;
+                    return new RobotResponse(CommandResult.Success);
             }
+
+            return new RobotResponse(CommandResult.Failed);
         }
 
-        public void Report()
+        public RobotResponse Report()
         {
-            Console.WriteLine($"X:{xcoordinate},Y:{ycoordinate},F:{direction.ToString()}");
+            // Direction is only set when a valid move has been made
+            if (isValid())
+            {
+                return new RobotResponse(CommandResult.Success, $"X:{xcoordinate},Y:{ycoordinate},F:{direction.ToString()}");
+            }
+
+            return new RobotResponse(CommandResult.Failed);
         }
 
         public bool isValid()
         {
-            // direction is only undefined if placement has never been set
-            if (direction != Direction.Undefined)
+            // Check if current position values are valid for the given board            
+            if (direction != Direction.Undefined &&
+                (xcoordinate >= 0 && xcoordinate < _tabletop.array2D.GetLength(0) - 1) &&
+                (ycoordinate >= 0 && ycoordinate < _tabletop.array2D.GetLength(1) - 1))
             {
                 return true;
             }
+
             return false;
         }
     }

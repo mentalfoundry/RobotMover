@@ -1,27 +1,20 @@
-﻿using System;
+﻿using RobotMover.Implementation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RobotMover.Implementation.Constants;
 
 namespace RobotMover.Interfaces
 {
-    public enum Direction
-    {
-        Undefined,
-        North,
-        East,
-        South,
-        West
-    }
-
     public interface IRobot
     {
-        bool SetPlacement(int x, int y, Direction dir);
-        void RotateDirectionLeft();
-        void RotateDirectionRight();
-        void MovePlacementForward();
-        void Report();
+        RobotResponse SetPlacement(int x, int y, Direction dir);
+        RobotResponse RotateDirectionLeft();
+        RobotResponse RotateDirectionRight();
+        RobotResponse MovePlacementForward();
+        RobotResponse Report();
         bool isValid();
     }
 }

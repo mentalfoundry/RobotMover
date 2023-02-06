@@ -18,30 +18,30 @@ namespace RobotMover
             Console.Write("Initializing robot...");
 
             // Setting TableTop size
-            var tableTop = new TableTop(new int[5, 5]);
-            var Robot = new RobotConsole(tableTop);
+            var tableTop = new TableTop(new int[5, 5]); // Todo: tablesize can be added to appsettings
+            var robot = new Basic2DGridRobot(tableTop);
+            var robotService = new RobotService(robot);
+
 
             Console.WriteLine("Done!");
             Console.WriteLine("Please enter commands. Type END to exit.");
 
             var command = "";
-            while(command.ToLower() != "end")
+            while(command != "end")
             {
-                command = Console.ReadLine();                
-                var result = Robot.ExecuteCommand(command);
-                Console.CursorTop--;
-                Console.CursorLeft = command.Length;
+                command = Console.ReadLine().ToLower();                
+                var result = robotService.ExecuteCommand(command);
                 if (result == CommandResult.Success)
                 {
-                    Console.WriteLine(" ...ok!");
+                    Console.WriteLine("> ...ok");
                 }
-                else
+                else if (command != "end")
                 {
-                    Console.WriteLine(" ...invalid command!");
+                    Console.WriteLine("> ...invalid command!");
                 }
             }
 
-            Console.WriteLine("Robot shut down. Press any key to quit.");
+            Console.WriteLine("> Press any key to quit.");
             Console.ReadKey();
         }
     }

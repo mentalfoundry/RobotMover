@@ -9,6 +9,8 @@
     <RootNamespace>RobotMover</RootNamespace>
     <AssemblyName>RobotMover</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+	<LangVersion>8.0</LangVersion>
+	<Nullable>enable</Nullable>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -43,10 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\RobotConsole.cs" />
+    <Compile Include="Implementation\Constants.cs" />
+    <Compile Include="Implementation\RobotServiceResponse.cs" />
+    <Compile Include="Implementation\RobotService.cs" />
     <Compile Include="Implementation\Basic2DGridRobot.cs" />
     <Compile Include="Implementation\TableTop.cs" />
-    <Compile Include="Interfaces\IRobotConsole.cs" />
+    <Compile Include="Interfaces\IRobotService.cs" />
     <Compile Include="Interfaces\IRobot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
