@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RobotMover.Implementation
 {
-    public class RobotPlacement : IRobotPlacement
+    public class Basic2DGridRobot : IRobot
     {
         // Current Placement is dependent on a Grid
         TableTop _tabletop;
@@ -17,7 +17,7 @@ namespace RobotMover.Implementation
         public int ycoordinate { get; set; }
         public Direction direction { get; set; }
 
-        public RobotPlacement(TableTop newTableTop)
+        public Basic2DGridRobot(TableTop newTableTop)
         {
             _tabletop = newTableTop;
             xcoordinate = -1;

@@ -1,22 +1,15 @@
 ﻿using RobotMover.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using static RobotMover.Program;
 
 namespace RobotMover.Implementation
 {
     public class RobotConsole : IRobotConsole
     {
-        IRobotPlacement _currentPlacement;
+        IRobot _robot;
 
         public RobotConsole(TableTop tableTop)
         {
-            _currentPlacement = new RobotPlacement(tableTop);
+            _robot = new Basic2DGridRobot(tableTop);
         }
 
         private bool TryPlaceRobot(string placementParameters)
@@ -40,7 +33,7 @@ namespace RobotMover.Implementation
             }
 
             // Set placement
-            return _currentPlacement.SetPlacement(x, y, direction);
+            return _robot.SetPlacement(x, y, direction);
         }
 
         public CommandResult ExecuteCommand(string command)
@@ -74,24 +67,24 @@ namespace RobotMover.Implementation
             }
 
             // Otherwise check if robot is placed properly before trying anything else.
-            else if (_currentPlacement.isValid())
+            else if (_robot.isValid())
             {
                 switch (action)
                 {
                     case "move":
-                        _currentPlacement.MovePlacementForward();                        
+                        _robot.MovePlacementForward();                        
                         break;
 
                     case "left":
-                        _currentPlacement.RotateDirectionLeft();
+                        _robot.RotateDirectionLeft();
                         break;
 
                     case "right":
-                        _currentPlacement.RotateDirectionRight();                        
+                        _robot.RotateDirectionRight();                        
                         break;
 
                     case "report":
-                        _currentPlacement.Report();                        
+                        _robot.Report();                        
                         break;
                     default: 
                         return CommandResult.Failed;

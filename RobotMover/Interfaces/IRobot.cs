@@ -15,7 +15,7 @@ namespace RobotMover.Interfaces
         West
     }
 
-    public interface IRobotPlacement
+    public interface IRobot
     {
         bool SetPlacement(int x, int y, Direction dir);
         void RotateDirectionLeft();
