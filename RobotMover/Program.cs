@@ -19,7 +19,7 @@ namespace RobotMover
 
             // Setting TableTop size
             var tableTop = new TableTop(new int[5, 5]);
-            var Robot = new Robot(tableTop);
+            var Robot = new RobotConsole(tableTop);
 
             Console.WriteLine("Done!");
             Console.WriteLine("Please enter commands. Type END to exit.");

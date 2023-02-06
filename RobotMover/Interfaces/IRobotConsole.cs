@@ -13,7 +13,7 @@ namespace RobotMover.Interfaces
         Failed
     }
 
-    public interface IRobot
+    public interface IRobotConsole
     {
         CommandResult ExecuteCommand(string command);
     }

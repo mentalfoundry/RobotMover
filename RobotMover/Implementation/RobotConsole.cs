@@ -10,11 +10,11 @@ using static RobotMover.Program;
 
 namespace RobotMover.Implementation
 {
-    public class Robot : IRobot
+    public class RobotConsole : IRobotConsole
     {
         IRobotPlacement _currentPlacement;
 
-        public Robot(TableTop tableTop)
+        public RobotConsole(TableTop tableTop)
         {
             _currentPlacement = new RobotPlacement(tableTop);
         }
