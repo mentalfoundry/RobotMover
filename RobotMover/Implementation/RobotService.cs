@@ -4,7 +4,7 @@ using static RobotMover.Implementation.Constants;
 
 namespace RobotMover.Implementation
 {
-    public class RobotService : IRobotService
+    public class RobotService : IRobotConsoleService
     {
         IRobot _robot;
 
@@ -78,6 +78,32 @@ namespace RobotMover.Implementation
             }
 
             return new RobotResponse(CommandResult.Failed);
+        }
+
+        public void RecieveInput(string command)
+        {
+            var response = ExecuteCommand(command);
+            if (response.result == CommandResult.Success)
+            {
+                if (string.IsNullOrEmpty(response.message))
+                {
+                    Console.CursorTop--;
+                    Console.CursorLeft = command.Length;
+                    Console.WriteLine(" >...ok");
+                }
+                else
+                {
+                    Console.CursorTop--;
+                    Console.CursorLeft = command.Length;
+                    Console.WriteLine($" >{response.message}");
+                }
+            }
+            else if (command != "end")
+            {
+                Console.CursorTop--;
+                Console.CursorLeft = command.Length;
+                Console.WriteLine(" >...invalid command!");
+            }
         }
     }
 
