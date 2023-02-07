@@ -8,6 +8,7 @@ using static RobotMover.Implementation.Constants;
 
 namespace RobotMover.Implementation
 {
+    // Robot that moves around in a pure 2D grid with no obstacles.
     public class Basic2DGridRobot : IRobot
     {
         // Grid for bounds reference.
