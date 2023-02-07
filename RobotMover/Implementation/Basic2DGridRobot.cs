@@ -94,26 +94,30 @@ namespace RobotMover.Implementation
                     if (ycoordinate < _tabletop.array2D.GetLength(1) - 1)
                     {
                         ycoordinate++;
+                        return new RobotResponse(CommandResult.Success);
                     }
-                    return new RobotResponse(CommandResult.Success);
+                    break;
                 case Direction.West:
                     if (xcoordinate > 0)
                     {
                         xcoordinate--;
-                    }
-                    return new RobotResponse(CommandResult.Success);
+                        return new RobotResponse(CommandResult.Success);
+                    }                    
+                    break;
                 case Direction.South:
                     if (ycoordinate > 0)
                     {
                         ycoordinate--;
+                        return new RobotResponse(CommandResult.Success);
                     }
-                    return new RobotResponse(CommandResult.Success);
+                    break;
                 case Direction.East:
                     if (xcoordinate < _tabletop.array2D.GetLength(0) - 1)
                     {
                         xcoordinate++;
+                        return new RobotResponse(CommandResult.Success);
                     }
-                    return new RobotResponse(CommandResult.Success);
+                    break;
             }
 
             return new RobotResponse(CommandResult.Failed);
